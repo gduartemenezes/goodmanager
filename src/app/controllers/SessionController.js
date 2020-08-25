@@ -1,5 +1,8 @@
+import jwt from 'jsonwebtoken';
 import * as Yup from 'yup';
+
 import Worker from '../models/Worker';
+import authConfig from '../../config/auth';
 
 class SessionController {
   async store(req, res) {
@@ -37,6 +40,9 @@ class SessionController {
         id,
         name,
       },
+      token: jwt.sign({ id }, authConfig.secret, {
+        expiresIn: authConfig.expiresIn,
+      }),
     });
   }
 }
